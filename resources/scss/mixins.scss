@@ -1,0 +1,34 @@
+@mixin vp-1599() {
+  @media screen and (max-width: 1599px) {
+    @content;
+  }
+}
+
+@mixin vp-1024() {
+  @media screen and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin vp-1450() {
+  @media screen and (max-width: 1450px) {
+    @content;
+  }
+}
+
+@mixin vp-1279() {
+  @media screen and (max-width: 1279px) {
+    @content;
+  }
+}
+
+@mixin vp-768() {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+@mixin vp-min($value) {
+  @media screen and (min-width: $value) {
+    @content;
+  }
+}

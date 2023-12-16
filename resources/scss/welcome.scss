@@ -1,0 +1,179 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 120px;
+    align-items: center;
+    height: max-content;
+    background-color: $white;
+}
+
+.navigation {
+    ul {
+        display: flex;
+        flex-direction: row;
+
+        li {
+            cursor: pointer;
+            padding: 0 20px;
+
+            &:hover {
+                color: $black;
+            }
+        }
+    }
+}
+
+.main {
+    padding: 40px 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+
+    h2 {
+        width: max-content;
+    }
+}
+
+.course {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+
+    &-card {
+        border-radius: $border-radius;
+        padding: 20px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 400px;
+
+        &:hover {
+            background-color: $white;
+
+        }
+
+        &__img {
+            width: 50%;
+            object-fit: cover;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        &__info {
+            width: 50%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        &__price {
+            background-color: $date-color;
+            border-radius: $border-radius;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            width: max-content;
+            padding: 10px;
+        }
+
+        &__top {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        &__submit {
+
+        }
+    }
+}
+
+
+.teachers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    width: 100%;
+
+    &-card {
+        border-radius: $border-radius;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        height: max-content;
+        gap: 20px;
+
+        &:hover {
+            background-color: $white;
+        }
+
+        &__img {
+            object-fit: cover;
+
+            img {
+                width: 300px;
+                height: 200px;
+            }
+        }
+
+        &__info {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+}
+
+
+.contact {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    padding:  40px 0;
+    &-info{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+
+.profile-top{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+        img{
+            width: 200px;
+            height: max-content;
+        }
+        h3{
+            width: max-content;
+        }
+
+    h2{
+        margin-bottom: 30px;
+        position: relative;
+        width: 100%;
+        text-align: center;
+        &:before{
+            content: '';
+            border-bottom: 1px solid $black;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left: 0;
+        }
+    }
+}

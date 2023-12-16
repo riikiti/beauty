@@ -35,5 +35,9 @@ class CourseUser extends Model
         return $this->approved ? 'Подтверждено' : 'Не подтверждено';
     }
 
+    public function getProfileInfoStatus() {
+        return $this->course->title . ' со статусом ' . $this->getpApprovedStatusStatus();
+    }
+
 
 }

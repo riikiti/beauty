@@ -126,52 +126,19 @@
 </header>
 
 <main class="main">
-    <h2 class="title title--2">Курсы</h2>
-    <div class="course">
-        @foreach($courses as $course)
-            <div class="course-card">
-                <div class="course-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$course->photo}}" alt="{{$course->photo}}">
-                </div>
-                <div class="course-card__info">
-                    <div class="course-card__top">
-                        <p class="course-card__price"> {{ $course->price }} руб.</p>
-                        <p class="course-card__price"> {{ $course->duration }}</p>
-                    </div>
-                    <h3 class="title title--3">{{ $course->title }}</h3>
-                    <p> {{ $course->description}}</p>
-                    @auth
-                        <form method="post" action="">
-                            <div class="course-card__submit">
-                                <input type="hidden" name="course_id" value="{{$course->id}}">
-                                <button type="submit">Записаться</button>
-                            </div>
-
-                        </form>
-                    @endauth
-                </div>
-            </div>
-        @endforeach
+    <h2 class="title title--2">Адрес и телефон школы</h2>
+    <div class="contact">
+        <div class="contact-info">
+            <h2 class="title title--2">Брянск,
+                ул. 22 Съезда, 19</h2>
+            <a href="tel:+79208534927">+79208534927</a>
+        </div>
+        <div>
+            <iframe
+                src="https://yandex.ru/map-widget/v1/?lang=ru_RU&amp;scroll=true&amp;um=constructor%3A304d63cc5870942ba88ec28189483938857eb7096f8c351ee63f3bcd3e26a365"
+                frameborder="0" allowfullscreen="true" width="455px" height="400px" style="display: block;"></iframe>
+        </div>
     </div>
-
-    <h2 class="title title--2">Преподователи</h2>
-    <div class="teachers ">
-        @foreach($teachers as $teacher)
-            <div class="teachers-card">
-                <div class="teachers-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$teacher->avatar}}" alt="{{$teacher->avatar}}">
-                </div>
-                <div class="teachers-card__info">
-                    <h2 class="title title--2"> {{ $teacher->name }} </h2>
-                    <h3 class="title title--3"> {{ $teacher->direction }}</h3>
-                    <p> {{ $teacher->description }}</p>
-
-                </div>
-            </div>
-        @endforeach
-    </div>
-
-
 </main>
 </body>
 </html>
