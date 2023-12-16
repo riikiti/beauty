@@ -16,7 +16,9 @@ class CourseGroup extends Model
         'group_id',
     ];
 
-
+    protected $appends=[
+        'info'
+    ];
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
@@ -26,5 +28,11 @@ class CourseGroup extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    public function getInfoAttribute()
+    {
+        return 'Смена: ' . $this->group->shift . ' - Дата начала: ' . $this->group->date_start;
+    }
+
 
 }

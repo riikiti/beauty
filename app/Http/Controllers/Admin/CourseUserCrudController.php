@@ -30,15 +30,9 @@ class CourseUserCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\CourseUser::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/course-user');
-        CRUD::setEntityNameStrings('course user', 'course users');
+        CRUD::setEntityNameStrings('Пользователя на курс', 'Пользователи и их курсы');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         $this->crud->column('id')->label('id');
@@ -59,20 +53,22 @@ class CourseUserCrudController extends CrudController
                 return $entry->course()->pluck('title')[0];
             }
         ]);
-        $this->crud->column('approved');
+        $this->crud->addColumn([
+            'name' => 'approved',
+            'label' => 'Статус подтверждения',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->getpApprovedStatusStatus();
+            }
+        ]);
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
+
     protected function setupCreateOperation()
     {
         CRUD::setValidation(CourseUserRequest::class);
         $this->crud->addField([
-            'label'     => "User",
+            'label'     => "Пользователь",
             'type'      => 'select',
             'name'      => 'user_id',
             'entity'    => 'user',
@@ -84,7 +80,7 @@ class CourseUserCrudController extends CrudController
         ]);
 
         $this->crud->addField([
-            'label'     => "Course",
+            'label'     => "Курс",
             'type'      => 'select',
             'name'      => 'course_id',
             'entity'    => 'course',
@@ -94,15 +90,13 @@ class CourseUserCrudController extends CrudController
                 return $query->orderBy('title', 'ASC')->get();
             }),
         ]);
-        $this->crud->field('approved');
+        $this->crud->field('approved')->label('Подтверждено');
     }
 
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
+
+    protected function setupShowOperation(){
+        $this->setupListOperation();
+    }
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();

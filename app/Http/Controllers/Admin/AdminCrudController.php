@@ -21,20 +21,14 @@ class AdminCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Admin::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/admin');
-        CRUD::setEntityNameStrings('admin', 'admins');
+        CRUD::setEntityNameStrings('Администратора', 'Администраторы');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
         $this->crud->column('id');
-        $this->crud->column('name');
-        $this->crud->column('email');
+        $this->crud->column('name')->label('Имя');
+        $this->crud->column('email')->label('Почта');
     }
 
     protected function setupShowOperation()

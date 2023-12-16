@@ -6,11 +6,7 @@ use App\Http\Requests\TeacherRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-/**
- * Class TeacherCrudController
- * @package App\Http\Controllers\Admin
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
- */
+
 class TeacherCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -19,57 +15,63 @@ class TeacherCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     * 
-     * @return void
-     */
+
     public function setup()
     {
         CRUD::setModel(\App\Models\Teacher::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/teacher');
-        CRUD::setEntityNameStrings('teacher', 'teachers');
+        CRUD::setEntityNameStrings('Преподователя', 'Преподователи');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     * 
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // set columns from db columns.
+        $this->crud->column('id');
+        $this->crud->column('name')->label('Имя');
+        $this->crud->addColumn([
+            'name' => 'avatar',
+            'label' => 'Аватар',
+            'type' => 'image',
+            'prefix' => '/storage/',
+        ]);
+        $this->crud->column('description')->label('Описание');
+        $this->crud->column('direction')->label('Направление');
 
-        /**
-         * Columns can be defined using the fluent syntax:
-         * - CRUD::column('price')->type('number');
-         */
+
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     * 
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
+    protected function setupShowOperation(){
+        $this->setupListOperation();
+    }
     protected function setupCreateOperation()
     {
         CRUD::setValidation(TeacherRequest::class);
-        CRUD::setFromDb(); // set fields from db columns.
-
-        /**
-         * Fields can be defined using the fluent syntax:
-         * - CRUD::field('price')->type('number');
-         */
+        $this->crud->field('name')->label('Имя');
+        $this->crud->field('description')->label('Описание');
+        $this->crud->addField([
+            'name' => 'avatar',
+            'label' => 'Аватар',
+            'type' => 'upload',
+            'withFiles' => true
+        ]);
+        $this->crud->field([
+            'name'  => 'direction',
+            'label' => 'Направление',
+            'type'  => 'enum',
+            'options' => [
+                'Барбер' => 'Барбер',
+                'Шугаринг' => 'Шугаринг',
+                'Визажист' => 'Визажист',
+                'Парикмахер-универсал' => 'Парикмахер-универсал',
+                'Наращивание волос' => 'Наращивание волос',
+                'Плетение кос' => 'Плетение кос',
+                'Укладка волос, причёски' => 'Укладка волос, причёски',
+                'Бровист' => 'Бровист',
+                'Дизайны ногтей' => 'Дизайны ногтей',
+                'Анатомия старения +скульптурно-буккальный массаж' => 'Анатомия старения +скульптурно-буккальный массаж',
+            ]
+        ]);
     }
 
-    /**
-     * Define what happens when the Update operation is loaded.
-     * 
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();

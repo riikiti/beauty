@@ -25,7 +25,10 @@ class GroupRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'date_start' => 'required',
+            'date_start_time' => 'required',
+            'date_finish_time' => 'required',
+            'shift'=>'required',
         ];
     }
 
@@ -49,7 +52,7 @@ class GroupRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            '*.required' => 'Поле обязательно для ввода',
         ];
     }
 }

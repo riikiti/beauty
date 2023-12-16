@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CourseGroupRequest extends FormRequest
 {
@@ -25,7 +26,13 @@ class CourseGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'course_id' => 'required',
+            'group_id' => [
+                'required',
+                Rule::unique('course_groups')->where(function ($query) {
+                    return $query->where('course_id', $this->course_id);
+                }),
+            ],
         ];
     }
 
@@ -49,7 +56,8 @@ class CourseGroupRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            '*.required' => 'Поле обязательно для ввода',
+            'group_id.unique' => 'Указанная комбинация уже существует.',
         ];
     }
 }

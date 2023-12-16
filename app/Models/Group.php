@@ -17,4 +17,8 @@ class Group extends Model
         'shift',
     ];
 
+    public function getFullInfoAttribute() {
+        return 'Смена: ' . $this->shift . ' - Дата начала: ' . $this->date_start;
+    }
+
 }

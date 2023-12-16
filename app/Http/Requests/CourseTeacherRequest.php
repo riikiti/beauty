@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CourseTeacherRequest extends FormRequest
 {
@@ -25,7 +26,13 @@ class CourseTeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'course_id' => 'required',
+            'teacher_id' => [
+                'required',
+                Rule::unique('course_teachers')->where(function ($query) {
+                    return $query->where('course_id', $this->course_id);
+                }),
+            ],
         ];
     }
 
@@ -49,7 +56,8 @@ class CourseTeacherRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            '*.required' => 'Поле обязательно для ввода',
+            'teacher_id.unique' => 'Указанная комбинация уже существует.',
         ];
     }
 }

@@ -16,7 +16,12 @@ class Course extends Model
         'description',
         'photo',
         'price',
-        'duration'
+        'duration',
+        'in_slider'
     ];
+
+    public function getInSliderStatus() {
+        return $this->in_slider ? 'Да' : 'Нет';
+    }
 
 }

@@ -25,7 +25,10 @@ class CourseRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'title' => 'required|min:2|max:255',
+            'photo' => 'required|file|mimes:jpeg,jpg,png,webp',
+            'price' => 'required|integer',
+            'duration'=>'required',
         ];
     }
 
@@ -49,7 +52,12 @@ class CourseRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            '*.required' => 'Поле обязательно для ввода',
+            'title.min' => 'Поле имя должно быть больше 2 символов',
+            'title.max' => 'Поле имя должно быть меньше 255 символов',
+            '*.file' => 'Загрузите файл',
+            '*.mimes'=>'Неподходящий формат файлов',
+            '*.integer'=>'Поле должно быть числовым'
         ];
     }
 }

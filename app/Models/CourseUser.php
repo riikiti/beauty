@@ -18,7 +18,9 @@ class CourseUser extends Model
         'approved'
     ];
 
-
+    protected $appends=[
+        'approved_status'
+    ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -27,6 +29,10 @@ class CourseUser extends Model
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function getpApprovedStatusStatus() {
+        return $this->approved ? 'Подтверждено' : 'Не подтверждено';
     }
 
 

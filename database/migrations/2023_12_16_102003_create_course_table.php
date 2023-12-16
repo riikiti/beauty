@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('photo');
             $table->integer('price');// цена курса
-            $table->integer('duration');// продолжительность курса в днях
+            $table->string('duration');// продолжительность курса в днях
+            $table->boolean('in_slider')->default(false);
             $table->timestamps();
         });
     }

@@ -6,11 +6,7 @@ use App\Http\Requests\GroupRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-/**
- * Class GroupCrudController
- * @package App\Http\Controllers\Admin
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
- */
+
 class GroupCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -19,57 +15,66 @@ class GroupCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     * 
-     * @return void
-     */
+
     public function setup()
     {
         CRUD::setModel(\App\Models\Group::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/group');
-        CRUD::setEntityNameStrings('group', 'groups');
+        CRUD::setEntityNameStrings('Группу', 'Группы');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     * 
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
+
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // set columns from db columns.
-
-        /**
-         * Columns can be defined using the fluent syntax:
-         * - CRUD::column('price')->type('number');
-         */
+        $this->crud->column('id');
+        $this->crud->column('date_start')->label('Дата начала');
+        $this->crud->column('date_start_time')->label('Время начала занятий');
+        $this->crud->column('date_finish_time')->label('Время конца занятий');
+        $this->crud->column('shift')->label('Смена');
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     * 
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+    }
+
     protected function setupCreateOperation()
     {
         CRUD::setValidation(GroupRequest::class);
-        CRUD::setFromDb(); // set fields from db columns.
+        $this->crud->field([   // DateTime
+            'name'  => 'date_start',
+            'label' => 'Дата начала',
+            'type'  => 'datetime'
+        ]);
 
-        /**
-         * Fields can be defined using the fluent syntax:
-         * - CRUD::field('price')->type('number');
-         */
+        $this->crud->field([   // Time
+            'name'  => 'date_start_time',
+            'label' => 'Время начала занятий',
+            'type'  => 'time'
+        ]);
+
+
+        $this->crud->field([   // Time
+            'name'  => 'date_finish_time',
+            'label' => 'Время конца занятий',
+            'type'  => 'time'
+        ]);
+
+        $this->crud->field([
+            'name'  => 'shift',
+            'label' => 'Смена',
+            'type'  => 'enum',
+            'options' => [
+                '1 смена' => '1 смена',
+                '2 смена' => '2 смена',
+                '3 смена' => '3 смена',
+                'Группа вых. дня' => 'Группа вых. дня',
+            ]
+        ]);
+
     }
 
-    /**
-     * Define what happens when the Update operation is loaded.
-     * 
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
+
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
