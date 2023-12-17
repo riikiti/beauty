@@ -14,7 +14,19 @@ class CourseController extends Controller
     {
         $courses = Course::all();
         $teachers = Teacher::all();
-        return view('welcome', ['teachers' => $teachers, 'courses' => $courses]);
+        $teacher_on_courses = [];
+        $directions = [];
+
+        foreach ($teachers as $teacher) {
+            $direction = $teacher->direction;
+            if (!in_array($direction, $directions)) {
+                $directions[] = $direction;
+                $teacher_on_courses[] = [
+                    'direction' => $direction,
+                ];
+            }
+        }
+        return view('welcome', ['teachers' => $teachers, 'courses' => $courses,'teacher_on_courses'=>$teacher_on_courses]);
     }
 
     public function store(Request $request): View

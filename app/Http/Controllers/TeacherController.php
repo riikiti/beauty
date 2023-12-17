@@ -9,8 +9,32 @@ use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
+
+    public function filterByDirection(Request $request)
+    {
+        $courses = Course::all();
+        $teachers = Teacher::where('direction', $request->input('direction'))->get();
+        $teachers_for_filter =Teacher::all();
+        $teacher_on_courses = [];
+        $directions = [];
+
+        foreach ($teachers_for_filter as $teacher) {
+            $direction = $teacher->direction;
+            if (!in_array($direction, $directions)) {
+                $directions[] = $direction;
+                $teacher_on_courses[] = [
+                    'direction' => $direction,
+                ];
+            }
+        }
+
+
+        return view('welcome', ['teachers' => $teachers, 'courses' => $courses,'teacher_on_courses'=>  $teacher_on_courses]);
+    }
+
     public function show($id)
     {
+        $courses_array =[];
         $teacher = Teacher::find($id);
         $teacher_courses = CourseTeacher::where('teacher_id', $teacher->id)->get();
         foreach ($teacher_courses as $teacher_course) {

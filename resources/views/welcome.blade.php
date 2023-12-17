@@ -159,6 +159,17 @@
     </div>
 
     <h2 class="title title--2">Преподователи</h2>
+
+        <form action="{{ route('teachers.filterByDirection') }}" method="GET">
+            @csrf
+            <select name="direction">
+                @foreach(  $teacher_on_courses as $teacher_direction)
+                <option  value="{{$teacher_direction['direction']}}">{{$teacher_direction['direction']}}</option>
+                @endforeach
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+
     <div class="teachers ">
         @foreach($teachers as $teacher)
             <div class="teachers-card">
@@ -173,6 +184,7 @@
 
                 </div>
             </div>
+
         @endforeach
     </div>
 

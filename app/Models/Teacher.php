@@ -17,4 +17,9 @@ class Teacher extends Model
         'description',
         'direction',
     ];
+
+    public function getTeacher()
+    {
+        return $this->teacher;
+    }
 }

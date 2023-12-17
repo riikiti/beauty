@@ -31,10 +31,10 @@ class CourseUserController extends Controller
                 'course_id' => $validatedData['course_id'],
             ]);
         } else {
-            return view('welcome', ['teachers' => $teachers, 'courses' => $courses]);
+            return view('profile.edit', ['user' => auth()->user()]);
         }
 
 
-        return view('welcome', ['teachers' => $teachers, 'courses' => $courses]);
+        return view('profile.edit', ['user' => auth()->user()]);
     }
 }

@@ -133,30 +133,31 @@
             <h3 class="title title--3">{{$course->title}}</h3>
             <p class="course-card__price">{{$course->price}} руб.</p>
             @auth
-                <form method="post" action="">
+                <form method="post" action="{{ route('courseUser.store') }}">
+                    @csrf
+                    <input type="hidden" name="course_id" value="{{ $course->id }}">
                     <div class="course-card__submit">
-                        <input type="hidden" name="course_id" value="{{$course->id}}">
                         <button type="submit">Записаться</button>
                     </div>
-
                 </form>
             @endauth
         </div>
         <div class="course-page__group">
-            @foreach($group_array as $group)
-                <div class="course-page__group-item">
-                    <h3 class="title title--3">{{$group['shift']}}</h3>
-                    <div class="course-page__group-time">
-                        <p>{{$group['date_start_time']}} - {{$group['date_finish_time']}}</p>
+            @if (!empty($group_array))
 
+                @foreach($group_array as $group)
+                    <div class="course-page__group-item">
+                        <h3 class="title title--3">{{$group['shift']}}</h3>
+                        <div class="course-page__group-time">
+                            <p>{{$group['date_start_time']}} - {{$group['date_finish_time']}}</p>
+                        </div>
+                        <h4 class="title title--4">
+                            Начало курса:
+                        </h4>
+                        <p>{{$group['date_start']}}</p>
                     </div>
-                    <h4 class="title title--4">
-                        Начало курса:
-                    </h4>
-                    <p>{{$group['date_start']}}</p>
-                </div>
-            @endforeach
-
+                @endforeach
+            @endif
         </div>
 
         <h3 class="title title--3">
@@ -166,20 +167,22 @@
     </div>
     <h2 class="title title--2">Преподователи на этом курсе</h2>
     <div class="teachers ">
-        @foreach($teacher_on_courses as $teacher)
-            <div class="teachers-card">
-                <div class="teachers-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$teacher['avatar']}}" alt="{{$teacher['avatar']}}">
-                </div>
-                <div class="teachers-card__info">
-                    <a href="{{ route('teacher.show', ['id' => $teacher['id']]) }}"
-                       class="title title--2">{{ $teacher['name'] }} </a>
-                    <h3 class="title title--3"> {{  $teacher['direction'] }}</h3>
-                    <p> {{ $teacher['description'] }}</p>
+        @if (!empty($teacher_on_courses))
+            @foreach($teacher_on_courses as $teacher)
+                <div class="teachers-card">
+                    <div class="teachers-card__img">
+                        <img src="http://127.0.0.1:8000/storage/{{$teacher['avatar']}}" alt="{{$teacher['avatar']}}">
+                    </div>
+                    <div class="teachers-card__info">
+                        <a href="{{ route('teacher.show', ['id' => $teacher['id']]) }}"
+                           class="title title--2">{{ $teacher['name'] }} </a>
+                        <h3 class="title title--3"> {{  $teacher['direction'] }}</h3>
+                        <p> {{ $teacher['description'] }}</p>
 
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        @endif
     </div>
 
 
