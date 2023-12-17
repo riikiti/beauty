@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
     @vite([ 'resources/js/app.js','resources/scss/app.scss','resources/css/app.css'])
-
 </head>
 <body>
 <header class="header">
@@ -127,50 +126,37 @@
 </header>
 
 <main class="main">
-
-
-    <h2 class="title title--2">Курсы</h2>
+    <h2 class="title title--2">Преподователь {{$teacher->name}}</h2>
+    <div class="course-page">
+        <div class="course-card__img">
+            <img src="http://127.0.0.1:8000/storage/{{$teacher->avatar}}" alt="{{$teacher->avatar}}">
+        </div>
+        <p>{{$teacher->description}}</p>
+        <p>{{$teacher->direction}}</p>
+    </div>
+    <h2 class="title title--2">Курсы преподавателя {{$teacher->name}}</h2>
     <div class="course">
-        @foreach($courses as $course)
+        @foreach($courses_array as $course)
             <div class="course-card">
                 <div class="course-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$course->photo}}" alt="{{$course->photo}}">
+                    <img src="http://127.0.0.1:8000/storage/{{$course['photo']}}" alt="{{$course['photo']}}">
                 </div>
                 <div class="course-card__info">
                     <div class="course-card__top">
-                        <p class="course-card__price"> {{ $course->price }} руб.</p>
-                        <p class="course-card__price"> {{ $course->duration }}</p>
+                        <p class="course-card__price"> {{ $course['price'] }} руб.</p>
+                        <p class="course-card__price"> {{ $course['duration'] }}</p>
                     </div>
-                    <a href="{{ route('product.show', ['id' => $course->id]) }}"
-                       class="title title--3">{{ $course->title }}</a>
-                    <p> {{ $course->description}}</p>
+                    <a href="{{ route('product.show', ['id' => $course['id']]) }}"
+                       class="title title--3">{{ $course['title'] }}</a>
+                    <p> {{ $course['description']}}</p>
                     @auth
-                        <form method="post" action="{{ route('courseUser.store') }}">
-                            @csrf
-                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                        <form method="post" action="">
                             <div class="course-card__submit">
+                                <input type="hidden" name="course_id" value="{{$course['id']}}">
                                 <button type="submit">Записаться</button>
                             </div>
                         </form>
                     @endauth
-                </div>
-            </div>
-        @endforeach
-    </div>
-
-    <h2 class="title title--2">Преподователи</h2>
-    <div class="teachers ">
-        @foreach($teachers as $teacher)
-            <div class="teachers-card">
-                <div class="teachers-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$teacher->avatar}}" alt="{{$teacher->avatar}}">
-                </div>
-                <div class="teachers-card__info">
-                    <a href="{{ route('teacher.show', ['id' => $teacher->id]) }}"
-                       class="title title--2">{{ $teacher->name }} </a>
-                    <h3 class="title title--3"> {{ $teacher->direction }}</h3>
-                    <p> {{ $teacher->description }}</p>
-
                 </div>
             </div>
         @endforeach

@@ -27,4 +27,14 @@ class CourseTeacher extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    public function getTeacher()
+    {
+        return $this->teacher;
+    }
+
 }

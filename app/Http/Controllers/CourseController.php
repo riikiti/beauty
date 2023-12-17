@@ -17,7 +17,6 @@ class CourseController extends Controller
         return view('welcome', ['teachers' => $teachers, 'courses' => $courses]);
     }
 
-
     public function store(Request $request): View
     {
         CourseUser::create([

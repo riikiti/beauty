@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
     @vite([ 'resources/js/app.js','resources/scss/app.scss','resources/css/app.css'])
-
 </head>
 <body>
 <header class="header">
@@ -127,49 +126,56 @@
 </header>
 
 <main class="main">
-
-
-    <h2 class="title title--2">Курсы</h2>
-    <div class="course">
-        @foreach($courses as $course)
-            <div class="course-card">
-                <div class="course-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$course->photo}}" alt="{{$course->photo}}">
-                </div>
-                <div class="course-card__info">
-                    <div class="course-card__top">
-                        <p class="course-card__price"> {{ $course->price }} руб.</p>
-                        <p class="course-card__price"> {{ $course->duration }}</p>
+    <h2 class="title title--2">Курсы {{$course->title}}</h2>
+    <div class="course-page">
+        <img src="http://127.0.0.1:8000/storage/{{$course->photo}}" alt="{{$course->photo}}">
+        <div class="course-page__title">
+            <h3 class="title title--3">{{$course->title}}</h3>
+            <p class="course-card__price">{{$course->price}} руб.</p>
+            @auth
+                <form method="post" action="">
+                    <div class="course-card__submit">
+                        <input type="hidden" name="course_id" value="{{$course->id}}">
+                        <button type="submit">Записаться</button>
                     </div>
-                    <a href="{{ route('product.show', ['id' => $course->id]) }}"
-                       class="title title--3">{{ $course->title }}</a>
-                    <p> {{ $course->description}}</p>
-                    @auth
-                        <form method="post" action="{{ route('courseUser.store') }}">
-                            @csrf
-                            <input type="hidden" name="course_id" value="{{ $course->id }}">
-                            <div class="course-card__submit">
-                                <button type="submit">Записаться</button>
-                            </div>
-                        </form>
-                    @endauth
-                </div>
-            </div>
-        @endforeach
-    </div>
 
-    <h2 class="title title--2">Преподователи</h2>
+                </form>
+            @endauth
+        </div>
+        <div class="course-page__group">
+            @foreach($group_array as $group)
+                <div class="course-page__group-item">
+                    <h3 class="title title--3">{{$group['shift']}}</h3>
+                    <div class="course-page__group-time">
+                        <p>{{$group['date_start_time']}} - {{$group['date_finish_time']}}</p>
+
+                    </div>
+                    <h4 class="title title--4">
+                        Начало курса:
+                    </h4>
+                    <p>{{$group['date_start']}}</p>
+                </div>
+            @endforeach
+
+        </div>
+
+        <h3 class="title title--3">
+            Описавние
+        </h3>
+        <p>{{$course->description}}</p>
+    </div>
+    <h2 class="title title--2">Преподователи на этом курсе</h2>
     <div class="teachers ">
-        @foreach($teachers as $teacher)
+        @foreach($teacher_on_courses as $teacher)
             <div class="teachers-card">
                 <div class="teachers-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$teacher->avatar}}" alt="{{$teacher->avatar}}">
+                    <img src="http://127.0.0.1:8000/storage/{{$teacher['avatar']}}" alt="{{$teacher['avatar']}}">
                 </div>
                 <div class="teachers-card__info">
-                    <a href="{{ route('teacher.show', ['id' => $teacher->id]) }}"
-                       class="title title--2">{{ $teacher->name }} </a>
-                    <h3 class="title title--3"> {{ $teacher->direction }}</h3>
-                    <p> {{ $teacher->description }}</p>
+                    <a href="{{ route('teacher.show', ['id' => $teacher['id']]) }}"
+                       class="title title--2">{{ $teacher['name'] }} </a>
+                    <h3 class="title title--3"> {{  $teacher['direction'] }}</h3>
+                    <p> {{ $teacher['description'] }}</p>
 
                 </div>
             </div>

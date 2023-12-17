@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseUserController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +28,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/contacts', [ContactController::class, 'index']);
-//Route::post('/{course_id}',[CourseController::class, 'store'])->name('submit.store');
+Route::get('/course/{id}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/teacher/{id}', [TeacherController::class, 'show'])->name('teacher.show');
 
-require __DIR__.'/auth.php';
+Route::post('/courseUser/store',  [CourseUserController::class, 'store'])->name('courseUser.store');
+require __DIR__ . '/auth.php';

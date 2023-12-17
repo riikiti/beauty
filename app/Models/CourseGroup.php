@@ -33,6 +33,9 @@ class CourseGroup extends Model
     {
         return 'Смена: ' . $this->group->shift . ' - Дата начала: ' . $this->group->date_start;
     }
-
+    public function getGroup()
+    {
+        return $this->group;
+    }
 
 }
