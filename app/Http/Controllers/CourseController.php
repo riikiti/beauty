@@ -12,7 +12,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::all();
+        $courses = Course::paginate(2);
         $teachers = Teacher::all();
         $teacher_on_courses = [];
         $directions = [];

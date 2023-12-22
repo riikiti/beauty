@@ -156,8 +156,9 @@
                 </div>
             </div>
         @endforeach
-    </div>
 
+    </div>
+    {{ $courses->links() }}
     <h2 class="title title--2">Преподователи</h2>
 
         <form action="{{ route('teachers.filterByDirection') }}" method="GET">
