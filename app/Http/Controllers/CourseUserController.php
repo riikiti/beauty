@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseUser;
+use App\Models\Logs;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -26,6 +27,13 @@ class CourseUserController extends Controller
 
         if (!$exists) {
             // Если комбинация не существует, добавить запись
+            $course_one = Course::query()->where('id', $validatedData['course_id'])->first();
+            Logs::create([
+                'content' => 'Пользователь оставил запрос на покупку '. $course_one->name,
+                'user_id' => auth()->id()
+            ]);
+
+
             CourseUser::create([
                 'user_id' => auth()->id(),
                 'course_id' => $validatedData['course_id'],
