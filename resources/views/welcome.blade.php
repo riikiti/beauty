@@ -9,6 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
+
     @vite([ 'resources/js/app.js','resources/scss/app.scss','resources/css/app.css'])
 
 </head>
@@ -127,6 +128,27 @@
 </header>
 
 <main class="main">
+  {{--  @foreach(\App\Models\Course::query()->where('in_slider',true) as $slide)
+        <div class="swiper-slide">{{$slide->title}}</div>
+    @endforeach--}}
+    <div class="swiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+        <!-- If we need scrollbar -->
+        <div class="swiper-scrollbar"></div>
+    </div>
 
 
     <h2 class="title title--2">Курсы</h2>
@@ -161,15 +183,15 @@
     {{ $courses->links() }}
     <h2 class="title title--2">Преподователи</h2>
 
-        <form action="{{ route('teachers.filterByDirection') }}" method="GET">
-            @csrf
-            <select name="direction">
-                @foreach(  $teacher_on_courses as $teacher_direction)
-                <option  value="{{$teacher_direction['direction']}}">{{$teacher_direction['direction']}}</option>
-                @endforeach
-            </select>
-            <button type="submit">Filter</button>
-        </form>
+    <form action="{{ route('teachers.filterByDirection') }}" method="GET">
+        @csrf
+        <select name="direction">
+            @foreach(  $teacher_on_courses as $teacher_direction)
+                <option value="{{$teacher_direction['direction']}}">{{$teacher_direction['direction']}}</option>
+            @endforeach
+        </select>
+        <button type="submit">Filter</button>
+    </form>
 
     <div class="teachers ">
         @foreach($teachers as $teacher)
@@ -188,8 +210,6 @@
 
         @endforeach
     </div>
-
-
 </main>
 </body>
 </html>
