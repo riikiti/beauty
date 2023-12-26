@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Course;
 use App\Models\CourseUser;
 use App\Models\Logs;
@@ -29,7 +30,7 @@ class CourseUserController extends Controller
             // Если комбинация не существует, добавить запись
             $course_one = Course::query()->where('id', $validatedData['course_id'])->first();
             Logs::create([
-                'content' => 'Пользователь оставил запрос на покупку '. $course_one->title,
+                'content' => 'Пользователь оставил запрос на покупку ' . $course_one->title,
                 'user_id' => auth()->id()
             ]);
 
@@ -41,6 +42,30 @@ class CourseUserController extends Controller
         } else {
             return view('profile.edit', ['user' => auth()->user()]);
         }
+
+
+        return view('profile.edit', ['user' => auth()->user()]);
+    }
+
+    public function addComment(Request $request): View
+    {
+        $validatedData = $request->validate([
+            'course_id' => 'required',
+            'user_id' => 'required',
+            'body' => 'required',
+        ]);
+
+        Comment::create([
+            'course_id' => intval($validatedData['course_id']),
+            'user_id' => intval($validatedData['user_id']),
+            'body' => $validatedData['body'],
+        ]);
+
+        $course_one = Course::query()->where('id', $validatedData['course_id'])->first();
+        Logs::create([
+            'content' => 'Пользователь оставил коментарий к  ' . $course_one->title,
+            'user_id' => auth()->id()
+        ]);
 
 
         return view('profile.edit', ['user' => auth()->user()]);

@@ -156,7 +156,7 @@
                                     @csrf
                                     <input type="hidden" name="course_id" value="{{ $slide->id }}">
                                     <div class="course-card__submit">
-                                        <button type="submit">Записаться</button>
+                                        <button type="submit" class="custom-btn btn-16">Записаться</button>
                                     </div>
                                 </form>
                             @endauth
@@ -200,7 +200,7 @@
                                 @csrf
                                 <input type="hidden" name="course_id" value="{{ $course->id }}">
                                 <div class="course-card__submit">
-                                    <button type="submit">Записаться</button>
+                                    <button type="submit" class="custom-btn btn-16">Записаться</button>
                                 </div>
                             </form>
                         @endauth

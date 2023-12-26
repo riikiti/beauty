@@ -11,3 +11,4 @@
 <x-backpack::menu-item title="Курсы и группы"  :link="backpack_url('course-group')" />
 <x-backpack::menu-item title="Курсы и учителя" :link="backpack_url('course-teacher')" />
 <x-backpack::menu-item title="Логи"  :link="backpack_url('logs')" />
+<x-backpack::menu-item title="Комментарии"  :link="backpack_url('comment')" />

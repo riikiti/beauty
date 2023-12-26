@@ -33,4 +33,5 @@ Route::get('/teacher/{id}', [TeacherController::class, 'show'])->name('teacher.s
 Route::get('/teachers/filter', [TeacherController::class, 'filterByDirection'])->name('teachers.filterByDirection');
 
 Route::post('/courseUser/store',  [CourseUserController::class, 'store'])->name('courseUser.store');
+Route::post('/courseUser/addComment',  [CourseUserController::class, 'addComment'])->name('courseUser.addComment');
 require __DIR__ . '/auth.php';

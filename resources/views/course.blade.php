@@ -138,7 +138,7 @@
                     @csrf
                     <input type="hidden" name="course_id" value="{{ $course->id }}">
                     <div class="course-card__submit">
-                        <button type="submit">Записаться</button>
+                        <button type="submit"  class="custom-btn btn-16">Записаться</button>
                     </div>
                 </form>
             @endauth
@@ -166,6 +166,34 @@
         </h3>
         <p>{{$course->description}}</p>
     </div>
+    <h2 class="title title--2">Комментарии</h2>
+    <div class="comment">
+        @if(empty(\App\Models\Comment::query()->where('course_id', $course->id )->get()[0]))
+            <h3 class="title title--3" style="text-align: center"> Комментариев нет</h3>
+        @endif
+
+        @foreach( \App\Models\Comment::query()->where('course_id', $course->id )->get() as $comment)
+            <div class="comment__item">
+                <div class="comment__header">
+                    {{$comment->user->name}}
+                </div>
+                <div class="comment__body">
+                    {{$comment->body}}</div>
+            </div>
+        @endforeach
+    </div>
+    @auth
+        <form method="post" action="{{ route('courseUser.addComment') }}">
+            @csrf
+            <input type="hidden" name="course_id" value="{{ $course->id}}">
+            <input type="hidden" name="user_id" value="{{ auth()->user()->getAuthIdentifier()}}">
+            <textarea name="body"></textarea>
+            <div class="course-card__submit">
+                <button type="submit" class="custom-btn btn-16">Отправить</button>
+            </div>
+        </form>
+    @endauth
+
     <h2 class="title title--2">Преподователи на этом курсе</h2>
     <div class="teachers ">
         @if (!empty($teacher_on_courses))
