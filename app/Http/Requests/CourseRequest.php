@@ -28,7 +28,7 @@ class CourseRequest extends FormRequest
             'title' => 'required|min:2|max:255',
             'photo' => 'required|file|mimes:jpeg,jpg,png,webp',
             'price' => 'required|integer',
-            'duration'=>'required',
+            'duration'=>'required|integer',
         ];
     }
 

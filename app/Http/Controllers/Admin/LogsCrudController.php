@@ -25,7 +25,11 @@ class LogsCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->column('id')->label('id');
-        $this->crud->column('description')->label('Описание');
+        $this->crud->addColumn([
+            'name' => 'content',
+            'label' => 'Описание',
+            'limit'=>1000
+        ]);
         $this->crud->addColumn([
             'name' => 'id_user',
             'label' => 'Пользователи',

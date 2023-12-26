@@ -14,7 +14,7 @@ class Logs extends Model
 
     protected $fillable = [
         'content',
-        'id_user',
+        'user_id',
     ];
 
     public function user(): BelongsTo

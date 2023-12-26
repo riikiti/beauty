@@ -15,10 +15,14 @@ class TeacherController extends Controller
         $courses = Course::paginate(2);
         if (empty($request->input('direction'))) {
             $teachers = Teacher::all();
+        } else {
+            if ($request->input('direction') == 'Все') {
+                $teachers = Teacher::all();
+            } else {
+                $teachers = Teacher::where('direction', $request->input('direction'))->get();
+            }
         }
-        else{
-            $teachers = Teacher::where('direction', $request->input('direction'))->get();
-        }
+
 
         $teachers_for_filter = Teacher::all();
         $teacher_on_courses = [];
@@ -35,7 +39,7 @@ class TeacherController extends Controller
         }
 
 
-        return view('welcome', ['teachers' => $teachers, 'courses' => $courses, 'teacher_on_courses' => $teacher_on_courses]);
+        return view('welcome', ['teachers' => $teachers, 'courses' => $courses, 'teacher_on_courses' => $teacher_on_courses, 'direction' => $request->input('direction')]);
     }
 
     public function show($id)

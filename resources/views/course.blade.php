@@ -132,6 +132,7 @@
         <div class="course-page__title">
             <h3 class="title title--3">{{$course->title}}</h3>
             <p class="course-card__price">{{$course->price}} руб.</p>
+            <p class="course-card__price">{{$course->duration}} дней(ня)</p>
             @auth
                 <form method="post" action="{{ route('courseUser.store') }}">
                     @csrf

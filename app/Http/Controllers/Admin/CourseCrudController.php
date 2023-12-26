@@ -61,13 +61,7 @@ class CourseCrudController extends CrudController
         $this->crud->field([
             'name'  => 'duration',
             'label' => 'Продолжительность',
-            'type'  => 'enum',
-            'options' => [
-                '15 дней' => '15 дней',
-                '30 дней' => '30 дней',
-                '60 дней' => '60 дней',
-                '90 дней' => '90 дней',
-            ]
+            'type'=>'number'
         ]);
         $this->crud->field('in_slider')->label('В слайдере');
     }

@@ -144,7 +144,7 @@
                 <div class="course-card__info">
                     <div class="course-card__top">
                         <p class="course-card__price"> {{ $course['price'] }} руб.</p>
-                        <p class="course-card__price"> {{ $course['duration'] }}</p>
+                        <p class="course-card__price"> {{ $course['duration'] }} дней(ня)</p>
                     </div>
                     <a href="{{ route('product.show', ['id' => $course['id']]) }}"
                        class="title title--3">{{ $course['title'] }}</a>

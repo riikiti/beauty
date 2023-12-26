@@ -29,7 +29,7 @@ class CourseUserController extends Controller
             // Если комбинация не существует, добавить запись
             $course_one = Course::query()->where('id', $validatedData['course_id'])->first();
             Logs::create([
-                'content' => 'Пользователь оставил запрос на покупку '. $course_one->name,
+                'content' => 'Пользователь оставил запрос на покупку '. $course_one->title,
                 'user_id' => auth()->id()
             ]);
 

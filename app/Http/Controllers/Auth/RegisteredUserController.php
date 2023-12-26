@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Logs;
+use App\Models\Teacher;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -29,11 +31,11 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): View
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -47,12 +49,24 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-
+        $courses = Course::paginate(2);
+        $teachers = Teacher::all();
         Logs::create([
-            'content'=>'Пользователь зарегестрировался',
-            'user_id'=>auth()->id()
+            'content' => 'Пользователь зарегестрировался',
+            'user_id' => $user->id
         ]);
+        $teacher_on_courses = [];
+        $directions = [];
 
-        return redirect('/');
+        foreach ($teachers as $teacher) {
+            $direction = $teacher->direction;
+            if (!in_array($direction, $directions)) {
+                $directions[] = $direction;
+                $teacher_on_courses[] = [
+                    'direction' => $direction,
+                ];
+            }
+        }
+        return view('welcome', ['teachers' => $teachers, 'courses' => $courses,'teacher_on_courses'=>$teacher_on_courses]);
     }
 }

@@ -146,7 +146,7 @@
                         <div class="course-card__info">
                             <div class="course-card__top">
                                 <p class="course-card__price"> {{ $slide->price }} руб.</p>
-                                <p class="course-card__price"> {{ $slide->duration }}</p>
+                                <p class="course-card__price"> {{ $slide->duration }} дней(ня)</p>
                             </div>
                             <a href="{{ route('product.show', ['id' => $slide->id]) }}"
                                class="title title--3">{{$slide->title}}</a>
@@ -176,66 +176,78 @@
 
     </div>
 
+    @if(!empty($courses)
 
-    <h2 class="title title--2">Курсы</h2>
-    <div class="course">
-        @foreach($courses as $course)
-            <div class="course-card">
-                <div class="course-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$course->photo}}" alt="{{$course->photo}}">
-                </div>
-                <div class="course-card__info">
-                    <div class="course-card__top">
-                        <p class="course-card__price"> {{ $course->price }} руб.</p>
-                        <p class="course-card__price"> {{ $course->duration }}</p>
+    )
+
+        <h2 class="title title--2">Курсы</h2>
+        <div class="course">
+            @foreach($courses as $course)
+                <div class="course-card">
+                    <div class="course-card__img">
+                        <img src="http://127.0.0.1:8000/storage/{{$course->photo}}" alt="{{$course->photo}}">
                     </div>
-                    <a href="{{ route('product.show', ['id' => $course->id]) }}"
-                       class="title title--3">{{ $course->title }}</a>
-                    <p> {{ $course->description}}</p>
-                    @auth
-                        <form method="post" action="{{ route('courseUser.store') }}">
-                            @csrf
-                            <input type="hidden" name="course_id" value="{{ $course->id }}">
-                            <div class="course-card__submit">
-                                <button type="submit">Записаться</button>
-                            </div>
-                        </form>
-                    @endauth
+                    <div class="course-card__info">
+                        <div class="course-card__top">
+                            <p class="course-card__price"> {{ $course->price }} руб.</p>
+                            <p class="course-card__price"> {{ $course->duration }}дней(ня)</p>
+                        </div>
+                        <a href="{{ route('product.show', ['id' => $course->id]) }}"
+                           class="title title--3">{{ $course->title }}</a>
+                        <p> {{ $course->description}}</p>
+                        @auth
+                            <form method="post" action="{{ route('courseUser.store') }}">
+                                @csrf
+                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                <div class="course-card__submit">
+                                    <button type="submit">Записаться</button>
+                                </div>
+                            </form>
+                        @endauth
+                    </div>
                 </div>
-            </div>
-        @endforeach
-
-    </div>
-    {{ $courses->links() }}
-    <h2 class="title title--2">Преподователи</h2>
-
-    <form action="{{ route('teachers.filterByDirection') }}" method="GET">
-        @csrf
-        <select name="direction">
-            @foreach(  $teacher_on_courses as $teacher_direction)
-                <option value="{{$teacher_direction['direction']}}">{{$teacher_direction['direction']}}</option>
             @endforeach
-        </select>
-        <button type="submit">Filter</button>
-    </form>
 
-    <div class="teachers ">
-        @foreach($teachers as $teacher)
-            <div class="teachers-card">
-                <div class="teachers-card__img">
-                    <img src="http://127.0.0.1:8000/storage/{{$teacher->avatar}}" alt="{{$teacher->avatar}}">
+        </div>
+        {{ $courses->links() }}
+    @endif
+
+    @if(!empty($teacher_on_courses) )
+        <h2 class="title title--2">Преподователи</h2>
+        @if(empty($direction))
+            <div style="display: none">{{$direction = 'Все'}}</div>
+        @endif
+        <form action="{{ route('teachers.filterByDirection') }}" method="GET">
+            @csrf
+            <select name="direction">
+                @foreach(  $teacher_on_courses as $teacher_direction)
+                    <option @if($direction ==$teacher_direction['direction']) selected
+                            @endif  value="{{$teacher_direction['direction']}}">{{$teacher_direction['direction']}}</option>
+                @endforeach
+                <option @if($direction =='Все') selected @endif  value="Все">Все</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+
+        <div class="teachers ">
+            @foreach($teachers as $teacher)
+                <div class="teachers-card">
+                    <div class="teachers-card__img">
+                        <img src="http://127.0.0.1:8000/storage/{{$teacher->avatar}}" alt="{{$teacher->avatar}}">
+                    </div>
+                    <div class="teachers-card__info">
+                        <a href="{{ route('teacher.show', ['id' => $teacher->id]) }}"
+                           class="title title--2">{{ $teacher->name }} </a>
+                        <h3 class="title title--3"> {{ $teacher->direction }}</h3>
+                        <p> {{ $teacher->description }}</p>
+
+                    </div>
                 </div>
-                <div class="teachers-card__info">
-                    <a href="{{ route('teacher.show', ['id' => $teacher->id]) }}"
-                       class="title title--2">{{ $teacher->name }} </a>
-                    <h3 class="title title--3"> {{ $teacher->direction }}</h3>
-                    <p> {{ $teacher->description }}</p>
 
-                </div>
-            </div>
+            @endforeach
+        </div>
+    @endif
 
-        @endforeach
-    </div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script type="module">
