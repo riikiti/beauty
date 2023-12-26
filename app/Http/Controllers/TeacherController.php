@@ -12,9 +12,15 @@ class TeacherController extends Controller
 
     public function filterByDirection(Request $request)
     {
-        $courses = Course::all();
-        $teachers = Teacher::where('direction', $request->input('direction'))->get();
-        $teachers_for_filter =Teacher::all();
+        $courses = Course::paginate(2);
+        if (empty($request->input('direction'))) {
+            $teachers = Teacher::all();
+        }
+        else{
+            $teachers = Teacher::where('direction', $request->input('direction'))->get();
+        }
+
+        $teachers_for_filter = Teacher::all();
         $teacher_on_courses = [];
         $directions = [];
 
@@ -29,12 +35,12 @@ class TeacherController extends Controller
         }
 
 
-        return view('welcome', ['teachers' => $teachers, 'courses' => $courses,'teacher_on_courses'=>  $teacher_on_courses]);
+        return view('welcome', ['teachers' => $teachers, 'courses' => $courses, 'teacher_on_courses' => $teacher_on_courses]);
     }
 
     public function show($id)
     {
-        $courses_array =[];
+        $courses_array = [];
         $teacher = Teacher::find($id);
         $teacher_courses = CourseTeacher::where('teacher_id', $teacher->id)->get();
         foreach ($teacher_courses as $teacher_course) {
@@ -42,13 +48,13 @@ class TeacherController extends Controller
             $courses_array[] = [
                 'id' => $course->id,
                 'title' => $course->title,
-                'photo'=>$course->photo,
-                'price'=>$course->price,
-                'duration'=>$course->duration,
-                'description'=>$course->description,
+                'photo' => $course->photo,
+                'price' => $course->price,
+                'duration' => $course->duration,
+                'description' => $course->description,
             ];
 
         }
-        return view('teacher', ['teacher' => $teacher,'courses_array'=>$courses_array]);
+        return view('teacher', ['teacher' => $teacher, 'courses_array' => $courses_array]);
     }
 }

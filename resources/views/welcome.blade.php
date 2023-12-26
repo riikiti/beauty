@@ -9,11 +9,15 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
-
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     @vite([ 'resources/js/app.js','resources/scss/app.scss','resources/css/app.css'])
 
 </head>
 <body>
+
 <header class="header">
 
 
@@ -128,16 +132,40 @@
 </header>
 
 <main class="main">
-  {{--  @foreach(\App\Models\Course::query()->where('in_slider',true) as $slide)
-        <div class="swiper-slide">{{$slide->title}}</div>
-    @endforeach--}}
+
     <div class="swiper">
         <!-- Additional required wrapper -->
         <div class="swiper-wrapper">
-            <!-- Slides -->
-            <div class="swiper-slide">Slide 1</div>
-            <div class="swiper-slide">Slide 2</div>
-            <div class="swiper-slide">Slide 3</div>
+            @foreach(\App\Models\Course::query()->where('in_slider',true)->get() as $slide)
+                <div class="swiper-slide">
+
+                    <div class="course-card">
+                        <div class="course-card__img">
+                            <img src="http://127.0.0.1:8000/storage/{{$slide->photo}}" alt="{{$slide->photo}}">
+                        </div>
+                        <div class="course-card__info">
+                            <div class="course-card__top">
+                                <p class="course-card__price"> {{ $slide->price }} руб.</p>
+                                <p class="course-card__price"> {{ $slide->duration }}</p>
+                            </div>
+                            <a href="{{ route('product.show', ['id' => $slide->id]) }}"
+                               class="title title--3">{{$slide->title}}</a>
+                            <p> {{ $slide->description}}</p>
+                            @auth
+                                <form method="post" action="{{ route('courseUser.store') }}">
+                                    @csrf
+                                    <input type="hidden" name="course_id" value="{{ $slide->id }}">
+                                    <div class="course-card__submit">
+                                        <button type="submit">Записаться</button>
+                                    </div>
+                                </form>
+                            @endauth
+                        </div>
+                    </div>
+
+
+                </div>
+            @endforeach
         </div>
         <!-- If we need pagination -->
         <div class="swiper-pagination"></div>
@@ -146,8 +174,6 @@
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
 
-        <!-- If we need scrollbar -->
-        <div class="swiper-scrollbar"></div>
     </div>
 
 
@@ -211,5 +237,22 @@
         @endforeach
     </div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script type="module">
+    import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs'
+
+    const swiper = new Swiper('.swiper', {
+
+        direction: 'horizontal',
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
 </body>
 </html>
